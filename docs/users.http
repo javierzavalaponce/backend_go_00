@@ -1,0 +1,24 @@
+### Sign Up
+POST {{host}}/users/sign-up
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}",
+  "age": 17
+}
+
+### Sign In
+# @name signIn
+POST {{host}}/users/sign-in
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+### Get Profile
+GET {{host}}/users/profile
+Content-Type: application/json
+Authorization: Bearer {{signIn.response.body.token_jwt}}
