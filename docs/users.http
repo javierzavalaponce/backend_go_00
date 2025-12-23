@@ -22,3 +22,9 @@ Content-Type: application/json
 GET {{host}}/users/profile
 Content-Type: application/json
 Authorization: Bearer {{signIn.response.body.token_jwt}}
+
+### Get Tasks
+GET {{host}}/tasks/
+
+### Get Task by ID
+GET {{host}}/tasks/1

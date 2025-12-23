@@ -1,6 +1,7 @@
 package main
 
 import (
+	tasks_presentation_gin "github.com/DEINSI-DEVELOP/test_backend_go.git/src/features/tasks/presentation"
 	users_respositories_mock "github.com/DEINSI-DEVELOP/test_backend_go.git/src/features/users/data/repositories/users_repository/users_repository_mock"
 	users_security_service_mock "github.com/DEINSI-DEVELOP/test_backend_go.git/src/features/users/data/services/security_service/security_service_mock"
 	users_use_cases "github.com/DEINSI-DEVELOP/test_backend_go.git/src/features/users/domain/use_cases"
@@ -29,7 +30,10 @@ func main() {
 		signInUseCase,
 	)
 
+	tasksHandlers := tasks_presentation_gin.NewTasksHandlers()
+
 	users_presentation_gin.SetupRoutes(r, userHandlers)
+	tasks_presentation_gin.SetupRoutes(r, tasksHandlers)
 
 	r.Run(":3000")
 }
