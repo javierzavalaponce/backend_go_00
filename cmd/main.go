@@ -19,7 +19,15 @@ func main() {
 		securityService,
 	)
 
-	userHandlers := users_presentation_gin.NewUsersHandlers(signUpUseCase)
+	signInUseCase := users_use_cases.NewSignInUseCase(
+		usersRepository,
+		securityService,
+	)
+
+	userHandlers := users_presentation_gin.NewUsersHandlers(
+		signUpUseCase,
+		signInUseCase,
+	)
 
 	users_presentation_gin.SetupRoutes(r, userHandlers)
 

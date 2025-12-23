@@ -11,13 +11,16 @@ import (
 
 type UsersHandlers struct {
 	signUpUseCase *users_use_cases.SignUpUseCase
+	signInUseCase *users_use_cases.SignInUseCase
 }
 
 func NewUsersHandlers(
 	signUpUseCase *users_use_cases.SignUpUseCase,
+	signInUseCase *users_use_cases.SignInUseCase,
 ) *UsersHandlers {
 	return &UsersHandlers{
 		signUpUseCase: signUpUseCase,
+		signInUseCase: signInUseCase,
 	}
 }
 
@@ -55,7 +58,15 @@ func (usersHandlers *UsersHandlers) SignIn(c *gin.Context) {
 		return
 	}
 
-	response := users_presentation_dtos.NewSignResponse("token")
+	token, err := usersHandlers.signInUseCase.Exec()
+	if err != nil {
+		fmt.Println(err)
+		c.Status(http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Println(token)
+	response := users_presentation_dtos.NewSignResponse("token - aqui voy")
 	c.JSON(http.StatusOK, response)
 }
 
