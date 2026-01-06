@@ -1,3 +1,10 @@
+#David(?) por default va por httpS?
+#nota: este request me fallaba sib http://...
+@host=http://localhost:3000
+@email=javierzavalaponce@gmail.com
+@password=123456
+
+
 ### Sign Up
 POST {{host}}/users/sign-up
 Content-Type: application/json
@@ -19,9 +26,9 @@ Content-Type: application/json
 }
 
 ### Get Profile
-GET {{host}}/users/profile
-Content-Type: application/json
-Authorization: Bearer {{signIn.response.body.token_jwt}}
+#GET {{host}}/users/profile
+#Content-Type: application/json
+#Authorization: Bearer {{signIn.response.body.token_jwt}}
 
 ### Get Tasks
 GET {{host}}/tasks/

@@ -11,7 +11,7 @@ func NewSecurityServiceMock() *SecurityServiceMock {
 }
 
 func (s *SecurityServiceMock) GenerateToken(userId string) (string, error) {
-	return "asdfsadfsdfsdfdsafsdaf", nil
+	return "token magico", nil
 }
 
 func (s *SecurityServiceMock) GeneratePasswordHash(password string) (string, error) {

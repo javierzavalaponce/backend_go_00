@@ -51,22 +51,31 @@ func (usersHandlers *UsersHandlers) SignUp(c *gin.Context) {
 }
 
 func (usersHandlers *UsersHandlers) SignIn(c *gin.Context) {
-	var signRequest users_presentation_dtos.SignRequest
-	if err := c.ShouldBindJSON(&signRequest); err != nil {
+	// David (?):
+	// al bindear el json del request al struct SignInRequest
+	// se requier de validaciones adicionales?
+	// o es suficiente con el binding "required" en el struct?
+	var signInRequest users_presentation_dtos.SignInRequest
+	if err := c.ShouldBindJSON(&signInRequest); err != nil {
+		fmt.Println(err)
+		c.Status(http.StatusBadRequest)
+		return
+	}
+	signData, err := signInRequest.ToSignInData()
+	if err != nil {
 		fmt.Println(err)
 		c.Status(http.StatusBadRequest)
 		return
 	}
 
-	token, err := usersHandlers.signInUseCase.Exec()
+	token, err := usersHandlers.signInUseCase.Execute(signData)
 	if err != nil {
 		fmt.Println(err)
 		c.Status(http.StatusInternalServerError)
 		return
 	}
 
-	fmt.Println(token)
-	response := users_presentation_dtos.NewSignResponse("token - aqui voy")
+	response := users_presentation_dtos.NewSignResponse(token)
 	c.JSON(http.StatusOK, response)
 }
 
