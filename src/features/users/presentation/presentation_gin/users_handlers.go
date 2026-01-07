@@ -61,6 +61,7 @@ func (usersHandlers *UsersHandlers) SignIn(c *gin.Context) {
 		c.Status(http.StatusBadRequest)
 		return
 	}
+
 	signData, err := signInRequest.ToSignInData()
 	if err != nil {
 		fmt.Println(err)
@@ -71,7 +72,10 @@ func (usersHandlers *UsersHandlers) SignIn(c *gin.Context) {
 	token, err := usersHandlers.signInUseCase.Execute(signData)
 	if err != nil {
 		fmt.Println(err)
-		c.Status(http.StatusInternalServerError)
+		//como seleccionar el status code adecuado? David
+		//c.Status(http.StatusInternalServerError)
+		c.Status(http.StatusUnauthorized)
+
 		return
 	}
 

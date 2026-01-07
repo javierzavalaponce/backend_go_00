@@ -1,11 +1,10 @@
-#David(?)  httpS?
-#nota1: este request me fallaba sin http://...
-
+#David(?)
 #que archivo deberia contener estos settings?
 #nota2: se murio la compu dende me habias 
-#apoyado con fractal (perdi la referencia) :(
+#apoyado con el proyecto fractal (es decir, perdi la referencia) :(
 @host=  http://localhost:3000
 @email=javierzavalaponce@gmail.com
+@email_KO=javierzavalaponce@failmock.com
 @password=123456
 
 
@@ -18,6 +17,17 @@ Content-Type: application/json
   "password": "{{password}}",
   "age": 17
 }
+
+### Sign In
+# @name signIn
+POST {{host}}/users/sign-in
+Content-Type: application/json
+
+{
+  "email": "{{email_KO}}",
+  "password": "{{password}}"
+}
+
 
 ### Sign In
 # @name signIn

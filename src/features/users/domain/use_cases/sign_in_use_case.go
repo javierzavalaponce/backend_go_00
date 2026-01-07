@@ -1,6 +1,8 @@
 package users_use_cases
 
 import (
+	"errors"
+
 	users_models "github.com/DEINSI-DEVELOP/test_backend_go.git/src/features/users/domain/models"
 	users_respositories "github.com/DEINSI-DEVELOP/test_backend_go.git/src/features/users/domain/respositories"
 	users_services "github.com/DEINSI-DEVELOP/test_backend_go.git/src/features/users/domain/services"
@@ -24,22 +26,26 @@ func NewSignInUseCase(
 
 // Sign in, inicio de sesion
 func (s *SignInUseCase) Execute(signData *users_models.SignData) (string, error) {
-	// Buscar el usuario en el repositorio
+	// 1. Buscar el usuario en el repositorio
 	userId, err := s.usersRepository.FindByEmail(signData.Email)
 	if err != nil {
 		return "", err
 	}
-
+	// Usuario encontrado
+	// 2. Obtener el hash de la contraseña almacenada
+	hashedPasswordStored, err := s.usersRepository.FindPasswordByEmail(signData)
+	if err != nil {
+		return "", err
+	}
 	// Verificar la contraseña
-	/*
-		isPasswordValid, err := s.securityService.VerifyPassword(signData.Password, userId)
-		if err != nil {
-			return "", err
-		}
-		if !isPasswordValid {
-			return "", err.New("invalid credentials")
-		}
-	*/
+	isPasswordValid, err := s.securityService.VerifyPassword(hashedPasswordStored, signData.Password)
+	if err != nil {
+		return "", err
+	}
+	if !isPasswordValid {
+		return "", errors.New("invalid credentials")
+	}
+
 	// Generar el token de autenticación
 	token, err := s.securityService.GenerateToken(userId)
 	if err != nil {

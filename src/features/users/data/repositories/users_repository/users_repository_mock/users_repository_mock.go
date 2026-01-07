@@ -1,6 +1,9 @@
 package users_respositories_mock
 
 import (
+	"errors"
+	"strings"
+
 	users_models "github.com/DEINSI-DEVELOP/test_backend_go.git/src/features/users/domain/models"
 	users_respositories "github.com/DEINSI-DEVELOP/test_backend_go.git/src/features/users/domain/respositories"
 	"github.com/google/uuid"
@@ -19,14 +22,19 @@ func (u *UsersRepositoryMock) Create(signData *users_models.SignData, hashedPass
 }
 
 func (u *UsersRepositoryMock) FindByEmail(email string) (string, error) {
-	//David(?) 	//struct User o solo el email?
-	//suponiendo que email si esta en la base de datos
-	//que deberia devolver el metodo FindByEmail?:
-
-	return email, nil
-
+	if strings.EqualFold(email, "javierzavalaponce@gmail.com") {
+		return email, nil
+	}
+	return "", errors.New("user not found")
 }
 
-func (u *UsersRepositoryMock) VerifyPassword(password string, hashedPassword string) (bool, error) {
-	return true, nil
+// FindPasswordByEmail regresa el hash de la contraseña para un email dado
+func (u *UsersRepositoryMock) FindPasswordByEmail(signData *users_models.SignData) (string, error) {
+	if strings.EqualFold(signData.Email, "javierzavalaponce@gmail.com") {
+		if signData.Password == "123456" {
+			return "$2a$10$7a8b9c0d1e2f3g4h5i6j7u8v9w0x1y2z3A4B5C6D7E8F9G0H1I2J3K", nil // bcrypt hash for "correct_password"
+		}
+		return "", errors.New("incorrect password")
+	}
+	return "", errors.New("user not found")
 }
