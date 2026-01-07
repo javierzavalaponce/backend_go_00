@@ -1,6 +1,10 @@
-#David(?) por default va por httpS?
-#nota: este request me fallaba sib http://...
-@host=http://localhost:3000
+#David(?)  httpS?
+#nota1: este request me fallaba sin http://...
+
+#que archivo deberia contener estos settings?
+#nota2: se murio la compu dende me habias 
+#apoyado con fractal (perdi la referencia) :(
+@host=  http://localhost:3000
 @email=javierzavalaponce@gmail.com
 @password=123456
 

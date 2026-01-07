@@ -19,8 +19,10 @@ func (u *UsersRepositoryMock) Create(signData *users_models.SignData, hashedPass
 }
 
 func (u *UsersRepositoryMock) FindByEmail(email string) (string, error) {
-	//David(?): no stoy seguro aqui..
-	//	mock returning the email as signData for simplicity
+	//David(?) 	//struct User o solo el email?
+	//suponiendo que email si esta en la base de datos
+	//que deberia devolver el metodo FindByEmail?:
+
 	return email, nil
 
 }

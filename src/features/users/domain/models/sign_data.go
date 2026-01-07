@@ -1,8 +1,11 @@
 package users_models
 
-// David? deberia
+// David?
 // o es recomendable que haya
 // un modelo para sign in y otro para sign up?
+// en otras palabras, cada caso de uso deberia
+// tener su propio modelo?
+
 type SignData struct {
 	Email          string
 	Password       string
