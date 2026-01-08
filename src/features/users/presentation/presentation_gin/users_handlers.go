@@ -72,14 +72,11 @@ func (usersHandlers *UsersHandlers) SignIn(c *gin.Context) {
 	token, err := usersHandlers.signInUseCase.Execute(signData)
 	if err != nil {
 		fmt.Println(err)
-		//como seleccionar el status code adecuado? David
-		//c.Status(http.StatusInternalServerError)
 		c.Status(http.StatusUnauthorized)
-
 		return
 	}
 
-	response := users_presentation_dtos.NewSignResponse(token)
+	response := users_presentation_dtos.NewSignInResponse(signData.Email, token)
 	c.JSON(http.StatusOK, response)
 }
 
