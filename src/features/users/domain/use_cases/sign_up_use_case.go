@@ -27,7 +27,7 @@ func (s *SignUpUseCase) Execute(signData *users_models.SignData) (string, error)
 		return "", err
 	}
 
-	userId, err := s.usersRepository.Create(signData, hashedPassword)
+	userId, err := s.usersRepository.Create(signData.Email, hashedPassword)
 	if err != nil {
 		return "", err
 	}

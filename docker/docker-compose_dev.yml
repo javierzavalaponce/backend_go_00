@@ -1,0 +1,16 @@
+services:
+  db:
+    container_name: test_backend
+    image: postgres:17
+    restart: always
+    environment:
+      POSTGRES_DB: TEST_BACKEND_DB
+      POSTGRES_USER: USER
+      POSTGRES_PASSWORD: PASSWORD
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
