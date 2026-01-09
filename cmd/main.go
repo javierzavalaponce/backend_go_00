@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/DEINSI-DEVELOP/test_backend_go.git/src/core/data/services/config_service"
 	"github.com/DEINSI-DEVELOP/test_backend_go.git/src/core/data/services/database_service/database_service_postgres"
 	users_respositories_postgres "github.com/DEINSI-DEVELOP/test_backend_go.git/src/features/users/data/repositories/users_repository/users_repository_postgres"
 	users_security_service_mock "github.com/DEINSI-DEVELOP/test_backend_go.git/src/features/users/data/services/security_service/security_service_mock"
@@ -12,15 +13,19 @@ import (
 func main() {
 	r := gin.Default()
 
+	cfgService := config_service.NewConfigServiceEnv()
+	cfg := cfgService.Read()
+
 	databaseService, err := database_service_postgres.NewDatabaseServicePostgres(
-		"localhost",
-		"5432",
-		"USER",
-		"PASSWORD",
-		"TEST_BACKEND_DB",
-		"disable",
-		"src/core/data/services/database_service/database_service_postgres/migrations",
+		cfg.DbHost,
+		cfg.DbPort,
+		cfg.DbUser,
+		cfg.DbPassword,
+		cfg.DbName,
+		cfg.DbSslMode,
+		cfg.MigrationsPath,
 	)
+
 	if err != nil {
 		panic(err)
 	}
