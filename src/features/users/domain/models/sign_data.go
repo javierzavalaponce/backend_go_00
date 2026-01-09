@@ -1,9 +1,8 @@
 package users_models
 
 type SignData struct {
-	Email          string
-	Password       string
-	HashedPassword string
+	Email    string
+	Password string
 }
 
 func (s *SignData) String() string {

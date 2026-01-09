@@ -27,18 +27,13 @@ func NewSignInUseCase(
 // Sign in, inicio de sesion
 func (s *SignInUseCase) Execute(signData *users_models.SignData) (string, error) {
 	// 1. Buscar el usuario en el repositorio
-	userId, err := s.usersRepository.FindByEmail(signData.Email)
+	user, err := s.usersRepository.FindByEmail(signData.Email)
 	if err != nil {
 		return "", err
 	}
-	// Usuario encontrado
-	// 2. Obtener el hash de la contraseña almacenada
-	hashedPasswordStored, err := s.usersRepository.FindPasswordByEmail(signData)
-	if err != nil {
-		return "", err
-	}
+
 	// Verificar la contraseña
-	isPasswordValid, err := s.securityService.VerifyPassword(hashedPasswordStored, signData.Password)
+	isPasswordValid, err := s.securityService.VerifyPassword(user.HashedPassword, signData.Password)
 	if err != nil {
 		return "", err
 	}
@@ -47,7 +42,7 @@ func (s *SignInUseCase) Execute(signData *users_models.SignData) (string, error)
 	}
 
 	// Generar el token de autenticación
-	token, err := s.securityService.GenerateToken(userId)
+	token, err := s.securityService.GenerateToken(user.ID)
 	if err != nil {
 		return "", err
 	}

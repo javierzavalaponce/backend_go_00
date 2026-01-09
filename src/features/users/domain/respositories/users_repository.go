@@ -7,6 +7,5 @@ import (
 
 type UsersRepository interface {
 	Create(user *users_models.SignData, hashedPassword string) (uuid.UUID, error)
-	FindByEmail(email string) (string, error)
-	FindPasswordByEmail(user *users_models.SignData) (string, error)
+	FindByEmail(email string) (*users_models.User, error)
 }

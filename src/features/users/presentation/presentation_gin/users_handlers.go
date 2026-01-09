@@ -55,14 +55,14 @@ func (usersHandlers *UsersHandlers) SignIn(c *gin.Context) {
 	// al bindear el json del request al struct SignInRequest
 	// se requier de validaciones adicionales?
 	// o es suficiente con el binding "required" en el struct?
-	var signInRequest users_presentation_dtos.SignInRequest
+	var signInRequest users_presentation_dtos.SignRequest
 	if err := c.ShouldBindJSON(&signInRequest); err != nil {
 		fmt.Println(err)
 		c.Status(http.StatusBadRequest)
 		return
 	}
 
-	signData, err := signInRequest.ToSignInData()
+	signData, err := signInRequest.ToSignData()
 	if err != nil {
 		fmt.Println(err)
 		c.Status(http.StatusBadRequest)
@@ -76,7 +76,7 @@ func (usersHandlers *UsersHandlers) SignIn(c *gin.Context) {
 		return
 	}
 
-	response := users_presentation_dtos.NewSignInResponse(signData.Email, token)
+	response := users_presentation_dtos.NewSignResponse(token)
 	c.JSON(http.StatusOK, response)
 }
 

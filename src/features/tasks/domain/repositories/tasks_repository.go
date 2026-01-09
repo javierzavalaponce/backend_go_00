@@ -1,6 +1,6 @@
 package task_repository
 
-import tasks_models
+import tasks_models "github.com/DEINSI-DEVELOP/test_backend_go.git/src/features/tasks/domain/models"
 
 type TaskRepository interface {
 	Save(task *tasks_models.Task) error
