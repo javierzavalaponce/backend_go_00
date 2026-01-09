@@ -1,6 +1,10 @@
 package users_respositories_mock
 
 import (
+	"errors"
+	"strings"
+
+	users_models "github.com/DEINSI-DEVELOP/test_backend_go.git/src/features/users/domain/models"
 	users_respositories "github.com/DEINSI-DEVELOP/test_backend_go.git/src/features/users/domain/respositories"
 	"github.com/google/uuid"
 )

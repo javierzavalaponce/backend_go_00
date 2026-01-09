@@ -45,10 +45,10 @@ func main() {
 		signInUseCase,
 	)
 
-	tasksHandlers := tasks_presentation_gin.NewTasksHandlers()
+	//tasksHandlers := tasks_presentation_gin.NewTasksHandlers()
 
 	users_presentation_gin.SetupRoutes(r, userHandlers)
-	tasks_presentation_gin.SetupRoutes(r, tasksHandlers)
+	//tasks_presentation_gin.SetupRoutes(r, tasksHandlers)
 
 	r.Run(":3000")
 }
