@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/DEINSI-DEVELOP/test_backend_go.git/src/core/data/services/config_service"
 	"github.com/DEINSI-DEVELOP/test_backend_go.git/src/core/data/services/database_service/database_service_postgres"
+	"github.com/DEINSI-DEVELOP/test_backend_go.git/src/core/data/services/logging_service"
 	users_respositories_postgres "github.com/DEINSI-DEVELOP/test_backend_go.git/src/features/users/data/repositories/users_repository/users_repository_postgres"
 	users_security_service_mock "github.com/DEINSI-DEVELOP/test_backend_go.git/src/features/users/data/services/security_service/security_service_mock"
 	users_use_cases "github.com/DEINSI-DEVELOP/test_backend_go.git/src/features/users/domain/use_cases"
@@ -14,6 +15,7 @@ func main() {
 	r := gin.Default()
 
 	cfgService := config_service.NewConfigServiceEnv()
+	loggingService := logging_service.NewLoggingServiceGolog()
 	cfg := cfgService.Read()
 
 	databaseService, err := database_service_postgres.NewDatabaseServicePostgres(
@@ -25,6 +27,14 @@ func main() {
 		cfg.DbSslMode,
 		cfg.MigrationsPath,
 	)
+
+	if databaseService == nil {
+		dbErr := err
+		loggingService.Error("Failed to initialize database", map[string]interface{}{
+			"error": dbErr,
+		})
+		return
+	}
 
 	if err != nil {
 		panic(err)
