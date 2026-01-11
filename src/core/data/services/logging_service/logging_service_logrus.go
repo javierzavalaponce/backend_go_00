@@ -1,9 +1,7 @@
 package logging_service
 
 import (
-	//re_services "artemisa/src/core/domain/services"
 	core_services "github.com/DEINSI-DEVELOP/test_backend_go.git/src/core/domain/services"
-
 	"github.com/sirupsen/logrus"
 )
 
