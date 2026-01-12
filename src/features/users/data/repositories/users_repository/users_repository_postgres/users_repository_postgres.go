@@ -30,18 +30,13 @@ func (u *UsersRepositoryPostgres) Create(email, hashedPassword string) (uuid.UUI
 }
 
 func (u *UsersRepositoryPostgres) FindByEmail(email string) (*users_models.User, error) {
-	/*
-		query := `SELECT id, email, password FROM test_backend.users WHERE email = $1`
-		var user users_models.User
-		err := u.db.QueryRow(query, email).Scan(&user.ID, &user.Email, &user.HashedPassword)
-		if err != nil {
-			return nil, err
-		}
-	*/
-	user := users_models.User{
-		ID:             "123456789",
-		Email:          email,
-		HashedPassword: "$2a$10$7a8b9c0d1e2f3g4h5i6j7u8v9w0x1y2z3A4B5C6D7E8F9G0H1I2J3K",
+
+	query := `SELECT id, email, password FROM test_backend.users WHERE email = $1`
+	var user users_models.User
+	err := u.db.QueryRow(query, email).Scan(&user.ID, &user.Email, &user.HashedPassword)
+	if err != nil {
+		return nil, err
 	}
+
 	return &user, nil
 }
