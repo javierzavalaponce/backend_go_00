@@ -2,6 +2,7 @@ package users_use_cases
 
 import (
 	"errors"
+	"time"
 
 	core_services "github.com/DEINSI-DEVELOP/test_backend_go.git/src/core/domain/services"
 	users_models "github.com/DEINSI-DEVELOP/test_backend_go.git/src/features/users/domain/models"
@@ -42,7 +43,7 @@ func (s *SignInUseCase) Execute(signData *users_models.SignData) (string, error)
 	}
 
 	// Generar el token de autenticación
-	token, err := s.securityService.GenerateToken(user.ID, 24*60*60)
+	token, err := s.securityService.GenerateToken(user.ID, time.Hour*24)
 	if err != nil {
 		return "", err
 	}

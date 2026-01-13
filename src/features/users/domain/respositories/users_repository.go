@@ -8,4 +8,5 @@ import (
 type UsersRepository interface {
 	Create(email, hashedPassword string) (uuid.UUID, error)
 	FindByEmail(email string) (*users_models.User, error)
+	Read(id string) (*users_models.User, error)
 }

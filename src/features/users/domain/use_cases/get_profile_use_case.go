@@ -29,7 +29,7 @@ func (s *GetProfileUseCase) Execute(token string, signData *users_models.SignDat
 	}
 
 	// 1. Buscar el usuario en el repositorio
-	user, err := s.usersRepository.FindByEmail(userID)
+	user, err := s.usersRepository.Read(userID)
 	if err != nil {
 		return &users_models.User{}, err
 	}

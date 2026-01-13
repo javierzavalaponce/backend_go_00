@@ -40,3 +40,15 @@ func (u *UsersRepositoryPostgres) FindByEmail(email string) (*users_models.User,
 
 	return &user, nil
 }
+
+func (u *UsersRepositoryPostgres) Read(id string) (*users_models.User, error) {
+
+	query := `SELECT id, email, password FROM test_backend.users WHERE id = $1`
+	var user users_models.User
+	err := u.db.QueryRow(query, id).Scan(&user.ID, &user.Email, &user.HashedPassword)
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}

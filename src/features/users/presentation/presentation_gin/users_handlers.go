@@ -94,27 +94,12 @@ func (usersHandlers *UsersHandlers) Profile(c *gin.Context) {
 	}
 
 	token := authHeader[len("Bearer "):]
-	_, err := usersHandlers.getProfileUseCase.Execute(token, nil)
+	user, err := usersHandlers.getProfileUseCase.Execute(token, nil)
 	if err != nil {
 		c.Status(http.StatusUnauthorized)
 		return
 	}
 
-	//var getProfileRequest users_presentation_dtos.GetProfileRequest
-	/*
-		if err := c.ShouldBindJSON(&getProfileRequest); err != nil {
-			fmt.Println(err)
-			c.Status(http.StatusBadRequest)
-			return
-		}
-	*/
-	/*
-		signData, err := signRequest.ToSignData()
-		if err != nil {
-			fmt.Println(err)
-			c.Status(http.StatusBadRequest)
-			return
-		}
-	*/
-	c.JSON(http.StatusOK, gin.H{"message": "User profile"})
+	c.JSON(http.StatusOK, users_presentation_dtos.ProfileOutputDtoFromUser(*user))
+	//c.JSON(http.StatusOK, gin.H{"message": "User profile"})
 }
