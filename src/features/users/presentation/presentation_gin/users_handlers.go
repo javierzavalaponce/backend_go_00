@@ -10,17 +10,20 @@ import (
 )
 
 type UsersHandlers struct {
-	signUpUseCase *users_use_cases.SignUpUseCase
-	signInUseCase *users_use_cases.SignInUseCase
+	signUpUseCase     *users_use_cases.SignUpUseCase
+	signInUseCase     *users_use_cases.SignInUseCase
+	getProfileUseCase *users_use_cases.GetProfileUseCase
 }
 
 func NewUsersHandlers(
 	signUpUseCase *users_use_cases.SignUpUseCase,
 	signInUseCase *users_use_cases.SignInUseCase,
+	getProfileUseCase *users_use_cases.GetProfileUseCase,
 ) *UsersHandlers {
 	return &UsersHandlers{
-		signUpUseCase: signUpUseCase,
-		signInUseCase: signInUseCase,
+		signUpUseCase:     signUpUseCase,
+		signInUseCase:     signInUseCase,
+		getProfileUseCase: getProfileUseCase,
 	}
 }
 
@@ -51,10 +54,6 @@ func (usersHandlers *UsersHandlers) SignUp(c *gin.Context) {
 }
 
 func (usersHandlers *UsersHandlers) SignIn(c *gin.Context) {
-	// David (?):
-	// al bindear el json del request al struct SignInRequest
-	// se requier de validaciones adicionales?
-	// o es suficiente con el binding "required" en el struct?
 	var signInRequest users_presentation_dtos.SignRequest
 	if err := c.ShouldBindJSON(&signInRequest); err != nil {
 		fmt.Println(err)
@@ -81,5 +80,41 @@ func (usersHandlers *UsersHandlers) SignIn(c *gin.Context) {
 }
 
 func (usersHandlers *UsersHandlers) Profile(c *gin.Context) {
+
+	authHeader := c.GetHeader("Authorization")
+
+	if authHeader == "" {
+		/*
+			h.LoggingService.Error("GetProfile error: ", map[string]interface{}{
+				"error": "Authorization header is required",
+			})
+		*/
+		c.Status(http.StatusUnauthorized)
+		return
+	}
+
+	token := authHeader[len("Bearer "):]
+	_, err := usersHandlers.getProfileUseCase.Execute(token, nil)
+	if err != nil {
+		c.Status(http.StatusUnauthorized)
+		return
+	}
+
+	//var getProfileRequest users_presentation_dtos.GetProfileRequest
+	/*
+		if err := c.ShouldBindJSON(&getProfileRequest); err != nil {
+			fmt.Println(err)
+			c.Status(http.StatusBadRequest)
+			return
+		}
+	*/
+	/*
+		signData, err := signRequest.ToSignData()
+		if err != nil {
+			fmt.Println(err)
+			c.Status(http.StatusBadRequest)
+			return
+		}
+	*/
 	c.JSON(http.StatusOK, gin.H{"message": "User profile"})
 }

@@ -55,9 +55,15 @@ func main() {
 		securityService,
 	)
 
+	getProfileUseCase := users_use_cases.NewGetProfileUseCase(
+		usersRepository,
+		securityService,
+	)
+
 	userHandlers := users_presentation_gin.NewUsersHandlers(
 		signUpUseCase,
 		signInUseCase,
+		getProfileUseCase,
 	)
 
 	//tasksHandlers := tasks_presentation_gin.NewTasksHandlers()

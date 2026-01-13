@@ -27,9 +27,8 @@ Content-Type: application/json
 
 ### Get Profile
 GET {{host}}/users/profile
-Content-Type: application/json
-
 Authorization: Bearer {{signIn.response.body.token_jwt}}
+
 
 ### Get Tasks
 GET {{host}}/tasks/
