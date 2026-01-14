@@ -80,7 +80,7 @@ func (usersHandlers *UsersHandlers) SignIn(c *gin.Context) {
 }
 
 func (usersHandlers *UsersHandlers) Profile(c *gin.Context) {
-
+	//javier
 	authHeader := c.GetHeader("Authorization")
 
 	if authHeader == "" {

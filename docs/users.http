@@ -29,6 +29,15 @@ Content-Type: application/json
 GET {{host}}/users/profile
 Authorization: Bearer {{signIn.response.body.token_jwt}}
 
+###Create Task
+POST {{host}}/tasks
+Authorization: Bearer {{signIn.response.body.token_jwt}}
+Content-Type: application/json    
+
+{
+  "name": "Configurar backend",
+  "description": "checar gin"
+}
 
 ### Get Tasks
 GET {{host}}/tasks/

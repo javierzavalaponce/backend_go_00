@@ -1,0 +1,30 @@
+package tasks_repository_postgres
+
+import (
+	"database/sql"
+
+	tasks_models "github.com/DEINSI-DEVELOP/test_backend_go.git/src/features/tasks/domain/models"
+	task_repository "github.com/DEINSI-DEVELOP/test_backend_go.git/src/features/tasks/domain/repositories"
+	"github.com/google/uuid"
+)
+
+type TaskRepositoryPostgres struct {
+	db *sql.DB
+}
+
+func NewTasksRepositoryPostgres(db *sql.DB) task_repository.TaskRepository {
+	return &TaskRepositoryPostgres{
+		db: db,
+	}
+}
+
+func (u *TaskRepositoryPostgres) Create(task *tasks_models.Task) error {
+	query := `INSERT INTO test_backend.tasks (name, description, user_id) VALUES ($1, $2, $3) RETURNING id`
+	var id uuid.UUID
+	err := u.db.QueryRow(query, task.Title, task.Description, task.User_ID).Scan(&id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
