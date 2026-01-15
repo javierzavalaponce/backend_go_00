@@ -35,8 +35,8 @@ Authorization: Bearer {{signIn.response.body.token_jwt}}
 Content-Type: application/json    
 
 {
-  "name": "Configurar backend",
-  "description": "checar gin"
+  "name": "usa formato uuid",
+  "description": "no string"
 }
 
 ### Get Tasks
