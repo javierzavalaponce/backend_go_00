@@ -7,7 +7,7 @@ type CreateTaskRequest struct {
 	Description string `json:"description" binding:"required"`
 }
 
-func (s *CreateTaskRequest) ToCreateTaskData() (*tasks_models.Task, error) {
+func (s *CreateTaskRequest) TaskData() (*tasks_models.Task, error) {
 
 	return &tasks_models.Task{
 		Title:       s.Name,

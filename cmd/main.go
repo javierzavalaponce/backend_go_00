@@ -72,7 +72,6 @@ func main() {
 		getProfileUseCase,
 	)
 
-	// Tasks Handlers
 	createTaskUseCase := tasks_use_cases.NewCreateTaskUseCase(
 		tasksRepository,
 		securityService,

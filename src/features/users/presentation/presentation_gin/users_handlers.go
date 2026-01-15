@@ -80,15 +80,8 @@ func (usersHandlers *UsersHandlers) SignIn(c *gin.Context) {
 }
 
 func (usersHandlers *UsersHandlers) Profile(c *gin.Context) {
-	//javier
 	authHeader := c.GetHeader("Authorization")
-
 	if authHeader == "" {
-		/*
-			h.LoggingService.Error("GetProfile error: ", map[string]interface{}{
-				"error": "Authorization header is required",
-			})
-		*/
 		c.Status(http.StatusUnauthorized)
 		return
 	}
@@ -99,7 +92,5 @@ func (usersHandlers *UsersHandlers) Profile(c *gin.Context) {
 		c.Status(http.StatusUnauthorized)
 		return
 	}
-
 	c.JSON(http.StatusOK, users_presentation_dtos.ProfileOutputDtoFromUser(*user))
-	//c.JSON(http.StatusOK, gin.H{"message": "User profile"})
 }

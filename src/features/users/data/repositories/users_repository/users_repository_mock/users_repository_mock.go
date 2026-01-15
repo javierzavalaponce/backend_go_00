@@ -30,3 +30,7 @@ func (u *UsersRepositoryMock) FindByEmail(email string) (*users_models.User, err
 	}, nil
 
 }
+
+func (u *UsersRepositoryMock) Read(id string) (user *users_models.User, e error) {
+	return
+}

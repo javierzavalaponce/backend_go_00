@@ -4,7 +4,6 @@ import "github.com/gin-gonic/gin"
 
 func SetupRoutes(r gin.IRouter, tasksHandlers *TasksHandlers) {
 	tasksRoute := r.Group("/tasks")
-	tasksRoute.GET("/:id", tasksHandlers.getTaskByID)
-	tasksRoute.GET("/", tasksHandlers.getTasks)
-	tasksRoute.POST("/", tasksHandlers.createTask)
+	tasksRoute.GET("", tasksHandlers.getTasks)
+	tasksRoute.POST("", tasksHandlers.createTask)
 }

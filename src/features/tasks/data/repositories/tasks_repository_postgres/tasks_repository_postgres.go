@@ -19,7 +19,7 @@ func NewTasksRepositoryPostgres(db *sql.DB) task_repository.TaskRepository {
 	}
 }
 
-func (u *TaskRepositoryPostgres) Create(task *tasks_models.Task) error {
+func (u *TaskRepositoryPostgres) Create(task *tasks_models.Task, userUUID uuid.UUID) (uuid.UUID, error) {
 	query := `INSERT INTO test_backend.tasks (name, description, user_id) VALUES ($1, $2, $3) RETURNING id`
 
 	userUUID, e := uuid.Parse(task.User_ID)
@@ -30,8 +30,8 @@ func (u *TaskRepositoryPostgres) Create(task *tasks_models.Task) error {
 	var id uuid.UUID
 	err := u.db.QueryRow(query, task.Title, task.Description, userUUID).Scan(&id)
 	if err != nil {
-		return err
+		return id, err
 	}
 
-	return nil
+	return id, nil
 }
