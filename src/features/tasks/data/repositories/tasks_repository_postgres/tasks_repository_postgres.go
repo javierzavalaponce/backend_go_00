@@ -28,3 +28,47 @@ func (u *TaskRepositoryPostgres) Create(task *tasks_models.Task, userUUID uuid.U
 
 	return taskId, nil
 }
+
+func (u *TaskRepositoryPostgres) FindByUserID(userID string) ([]tasks_models.Task, error) {
+	query := `
+		SELECT
+			name,
+			description,
+			completed,
+			user_id
+		FROM test_backend.tasks
+		WHERE user_id = $1
+		  AND deleted_at IS NULL
+		ORDER BY created_at DESC
+	`
+
+	rows, err := u.db.Query(query, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var tasks []tasks_models.Task
+
+	for rows.Next() {
+		var task tasks_models.Task
+
+		err := rows.Scan(
+			&task.Title,
+			&task.Description,
+			&task.Completed,
+			&task.User_ID,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		tasks = append(tasks, task)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return tasks, nil
+}

@@ -11,24 +11,35 @@ import (
 
 type TasksHandlers struct {
 	createTaskUseCase *tasks_use_cases.CreateTasksUseCase
+	getListAllTask    *tasks_use_cases.ListTasksUseCase
 }
 
-func NewTasksHandlers(
+func NewTasksHandlers( //
 	createTaskUseCase *tasks_use_cases.CreateTasksUseCase,
+	getListAllTask *tasks_use_cases.ListTasksUseCase,
+
 ) *TasksHandlers {
 	return &TasksHandlers{
 		createTaskUseCase: createTaskUseCase,
+		getListAllTask:    getListAllTask,
 	}
 }
 
 func (h *TasksHandlers) getTasks(c *gin.Context) {
-	fmt.Println("Obtiene la lista -ALL-")
-	c.JSON(http.StatusOK, "list")
-}
 
-func (h *TasksHandlers) getTaskByID(c *gin.Context) {
-	fmt.Println("Obtiene un item por ID")
-	c.JSON(http.StatusOK, "task")
+	authHeader := c.GetHeader("Authorization")
+	if authHeader == "" {
+		c.Status(http.StatusUnauthorized)
+		return
+	}
+	token := authHeader[len("Bearer "):]
+	tasks, err := h.getListAllTask.Execute(token)
+	if err != nil {
+		fmt.Println(err)
+		c.Status(http.StatusInternalServerError)
+		return
+	}
+	c.JSON(http.StatusOK, tasks)
 }
 
 func (h *TasksHandlers) createTask(c *gin.Context) {

@@ -77,8 +77,14 @@ func main() {
 		securityService,
 	)
 
+	getListAllTask := tasks_use_cases.NewListTasksUseCase(
+		tasksRepository,
+		securityService,
+	)
+
 	tasksHandlers := tasks_presentation_gin.NewTasksHandlers(
 		createTaskUseCase,
+		getListAllTask,
 	)
 
 	users_presentation_gin.SetupRoutes(r, userHandlers)
